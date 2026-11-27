@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fab Hub</title><meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="/manifest.json"><link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/style.css"></head><body>
+<header><div class="search"><input id="q" placeholder="Search apps or type a website address" autocomplete="off"><button id="go">Go</button></div></header>
+<main>
+<section id="results" hidden></section>
+<section id="store"><h2>Store</h2><div class="grid" id="storeGrid"></div></section>
+<section id="mine" hidden><h2>My Apps <button id="done" hidden>Done</button></h2><div class="grid" id="mineGrid"></div><p class="empty" id="empty">Nothing here yet. Add apps from the Store. Press and hold an app to rearrange.</p></section>
+</main>
+<nav><button data-tab="store" class="on">Store</button><button data-tab="mine">My Apps</button><button id="navTabs">Tabs</button></nav>
+<div id="viewer" hidden>
+<div class="tabs" id="tabs"></div>
+<div class="bar"><button id="vBack">←</button><b id="vName"></b><button id="vReload">⟳</button><button id="vOpen">↗</button><button id="vAdd">＋ Add</button><button id="vInstall">Install</button></div>
+<div id="frames"><div id="blocked" hidden><p>This site doesn't allow being shown inside another app.</p><button id="bOpen">Open in new tab</button></div></div>
+</div>
+<script src="/app.js"></script></body></html>

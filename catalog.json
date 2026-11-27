@@ -1,0 +1,5 @@
+[
+{"id":"fabbot","name":"FabBot","url":"https://YOUR-FABBOT.vercel.app","color":"#0ea5e9","desc":"Cybersecurity AI chatbot","tags":["ai","security","chat"]},
+{"id":"st-cecilia","name":"St. Cecilia Choir","url":"https://YOUR-CHOIR-SITE.vercel.app","color":"#7c3aed","desc":"HTCC Naze choir portal and Music Boom tickets","tags":["music","tickets"]},
+{"id":"wikipedia","name":"Wikipedia","url":"https://www.wikipedia.org","color":"#202122","desc":"Demo entry: the free encyclopedia","tags":["reference"]}
+]
