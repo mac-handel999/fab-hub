@@ -55,7 +55,7 @@
 <!-- Floating dock -->
   <nav id="dock" class="dock" role="navigation" aria-label="Main navigation">
     <div class="dock-brand" aria-hidden="true">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+      <img src="/logos/logo-c-hub.svg" alt="" width="28" height="28" style="display:block">
       <span>Fab Hub</span>
     </div>
     <button class="dock-item" data-dock="home" aria-label="Home" title="Home">
@@ -111,31 +111,55 @@
 
 <!-- Viewer (fullscreen) -->
 <div id="viewer" class="viewer" hidden>
-  <div class="viewer-handle" id="viewerHandle" role="button" tabindex="0" aria-label="Viewer controls">
+  <!-- Floating handle - draggable pill on edge -->
+  <div id="viewerHandle" class="viewer-handle pos-right collapsed" role="button" tabindex="0" aria-label="Viewer controls" aria-expanded="false">
     <div class="handle-bar"></div>
   </div>
-  <div class="viewer-controls" id="viewerControls" hidden>
-    <div class="viewer-left">
-      <button id="vBack" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
-      <button id="vReload" title="Reload" aria-label="Reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+  <!-- Expanded toolbar -->
+  <div id="viewerToolbar" class="viewer-toolbar right" role="toolbar" aria-label="Viewer navigation" hidden>
+    <button id="vHome" class="viewer-toolbar-btn" title="Home" aria-label="Go to Home screen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+    </button>
+    <button id="vBack" class="viewer-toolbar-btn" title="Back" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <button id="vForward" class="viewer-toolbar-btn" title="Forward" aria-label="Forward" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <button id="vReload" class="viewer-toolbar-btn" title="Reload" aria-label="Reload">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    </button>
+    <div class="viewer-toolbar-divider"></div>
+    <button id="vTabs" class="viewer-toolbar-btn" title="Tab switcher" aria-label="Open tab switcher">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="3" x2="8" y2="17"/><line x1="16" y1="3" x2="16" y2="17"/></svg>
+    </button>
+    <button id="vFullscreen" class="viewer-toolbar-btn" title="Fullscreen" aria-label="Toggle fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+    </button>
+    <button id="vNewTab" class="viewer-toolbar-btn" title="Open in new tab" aria-label="Open in new tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </button>
+    <button id="vCopyLink" class="viewer-toolbar-btn" title="Copy link" aria-label="Copy link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    </button>
+    <div class="viewer-toolbar-divider"></div>
+    <button id="vClose" class="viewer-toolbar-btn" title="Close" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="viewer-center-info" id="viewerCenterInfo" aria-hidden="true">
+    <div class="viewer-brand">
+      <img src="/logos/logo-c-hub.svg" alt="" width="36" height="36" style="display:block">
     </div>
-    <div class="viewer-center">
-      <div class="viewer-brand" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
-      </div>
-      <div id="vName" class="viewer-title"></div>
-      <div id="vUrl" class="viewer-url"></div>
-    </div>
-    <div class="viewer-right">
-      <button id="vTabs" title="Tab switcher" aria-label="Tab switcher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="3" x2="8" y2="17"/><line x1="16" y1="3" x2="16" y2="17"/></svg></button>
-      <button id="vClose" title="Close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
+    <div id="vName" class="viewer-title"></div>
+    <div id="vUrl" class="viewer-url"></div>
   </div>
   <div id="frames" class="frames"></div>
   <div id="blocked" class="blocked" hidden>
+    <h3>Unable to embed</h3>
     <p id="blockedReason">This site doesn't allow being shown inside another app.</p>
     <div class="blocked-actions">
-      <button id="bOpen">Open in new tab</button>
+      <button id="bOpen" class="primary">Open in new tab</button>
       <button id="bInstall">Install as app</button>
       <button id="bAddAnyway">Add anyway</button>
     </div>

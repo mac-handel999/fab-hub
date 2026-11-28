@@ -523,42 +523,389 @@ function iconHtml(a){
   const src=resolveIcon(a);
   return `<img src="${esc(src)}" alt="" width="60" height="60" loading="lazy" onerror="this.onerror=null;this.src='${esc(gen(a))}';this.classList.add('fallback')">`;
 }
-function esc(s){return String(s??'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"').replace(/'/g,'')}
+function esc(s){return String(s??'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'"').replace(/'/g,''')}
 
-/* ---- Viewer ---- */
-let viewerHandleDrag=false,viewerControlsVisible=false;
+/* ---- Fullscreen Viewer (Part 2) ---- */
+const VIEWER_HANDLE_LS='fabhub.viewerHandle';
+let viewerHandleDrag=false,viewerToolbarVisible=false,viewerFullscreen=false,viewerHideTimer=null,viewerIdleTimer=null,viewerSuspendTimers={};
+const VIEWER_IDLE_MS=5*60*1000; // 5 minutes
+
+function getViewerHandlePos(){
+  try{return JSON.parse(localStorage.getItem(VIEWER_HANDLE_LS)||'{}')}catch{return {}}
+}
+function saveViewerHandlePos(pos){
+  localStorage.setItem(VIEWER_HANDLE_LS,JSON.stringify(pos))
+}
+function applyViewerHandlePos(){
+  const pos=getViewerHandlePos();
+  const handle=$('#viewerHandle');
+  if(!handle)return;
+  handle.classList.remove('pos-left','pos-right','pos-top','pos-bottom');
+  const position=pos.position||'right';
+  handle.classList.add('pos-'+position);
+  if(pos.x!==undefined&&pos.y!==undefined){
+    handle.style.left=pos.x+'px';
+    handle.style.top=pos.y+'px';
+    handle.style.transform='none';
+  }
+}
+
 function initViewer(){
   const handle=$('#viewerHandle');
-  const controls=$('#viewerControls');
-  handle.addEventListener('pointerdown',e=>{viewerHandleDrag=true;handle.setPointerCapture(e.pointerId)});
-  handle.addEventListener('pointerup',()=>{viewerHandleDrag=false;showViewerControls()});
-  handle.addEventListener('pointercancel',()=>{viewerHandleDrag=false});
-  document.addEventListener('click',e=>{if(viewerControlsVisible&&!controls.contains(e.target)&&!handle.contains(e.target))hideViewerControls()});
-  $('#vBack').onclick=()=>{const f=tabs[ai]?.frame;if(f&&f.contentWindow){try{f.contentWindow.history.back()}catch{}}};
+  const toolbar=$('#viewerToolbar');
+  const centerInfo=$('#viewerCenterInfo');
+  
+  applyViewerHandlePos();
+  
+  // Handle drag
+  let dragStartX=0,dragStartY=0,handleStartX=0,handleStartY=0;
+  handle.addEventListener('pointerdown',e=>{
+    if(e.button!==0)return;
+    viewerHandleDrag=true;
+    handle.setPointerCapture(e.pointerId);
+    dragStartX=e.clientX;
+    dragStartY=e.clientY;
+    const rect=handle.getBoundingClientRect();
+    handleStartX=rect.left;
+    handleStartY=rect.top;
+    handle.classList.add('dragging');
+    e.preventDefault();
+  });
+  handle.addEventListener('pointermove',e=>{
+    if(!viewerHandleDrag)return;
+    const dx=e.clientX-dragStartX;
+    const dy=e.clientY-dragStartY;
+    const newX=handleStartX+dx;
+    const newY=handleStartY+dy;
+    handle.style.left=newX+'px';
+    handle.style.top=newY+'px';
+    handle.style.transform='none';
+    handle.classList.remove('pos-left','pos-right','pos-top','pos-bottom');
+  });
+  handle.addEventListener('pointerup',e=>{
+    if(!viewerHandleDrag)return;
+    viewerHandleDrag=false;
+    handle.releasePointerCapture(e.pointerId);
+    handle.classList.remove('dragging');
+    snapHandleToEdge(handle);
+    showViewerToolbar();
+  });
+  handle.addEventListener('pointercancel',()=>{
+    viewerHandleDrag=false;
+    handle.classList.remove('dragging');
+  });
+  handle.addEventListener('click',e=>{
+    if(Math.abs(e.clientX-dragStartX)>5||Math.abs(e.clientY-dragStartY)>5)return;
+    toggleViewerToolbar();
+  });
+  handle.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleViewerToolbar()}
+  });
+  
+  // Toolbar buttons
+  $('#vHome').onclick=()=>{closeViewer();closeTabSwitcher();closePullSearch();closeAppLibrary()};
+  $('#vBack').onclick=()=>{const f=tabs[ai]?.frame;if(f&&f.contentWindow){try{f.contentWindow.history.back()}catch{}}updateForwardButton()};
+  $('#vForward').onclick=()=>{const f=tabs[ai]?.frame;if(f&&f.contentWindow){try{f.contentWindow.history.forward()}catch{}}updateForwardButton()};
   $('#vReload').onclick=()=>{const f=tabs[ai]?.frame;if(f)f.src=f.src};
-  $('#vTabs').onclick=openTabSwitcher;
+  $('#vTabs').onclick=()=>{hideViewerToolbar();openTabSwitcher()};
+  $('#vFullscreen').onclick=toggleFullscreen;
+  $('#vNewTab').onclick=()=>{const c=cur();if(c)window.open(c.url,'_blank','noopener')};
+  $('#vCopyLink').onclick=async()=>{const c=cur();if(c){try{await navigator.clipboard.writeText(c.url);toast('Link copied')}catch{toast('Failed to copy','error')}}};
   $('#vClose').onclick=closeViewer;
+  
   $('#bOpen').onclick=()=>cur()&&window.open(cur().url,'_blank','noopener');
   $('#bInstall').onclick=()=>{const t=tabs[ai];if(t)window.open(installUrl(t.app),'_blank')};
   $('#bAddAnyway').onclick=()=>{const t=tabs[ai];if(t&&!has(t.app)){mine.push(t.app);save();renderPages()}closeBlocked();if(t){const f=document.createElement('iframe');f.sandbox='allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads';f.src=t.app.url;$('#frames').append(f);t.frame=f;applyDark(t);activate(tabs.indexOf(t))}};
+  
+  // Click outside to hide toolbar
+  document.addEventListener('click',e=>{
+    if(viewerToolbarVisible&&!toolbar.contains(e.target)&&!handle.contains(e.target)&&!centerInfo.contains(e.target)){
+      hideViewerToolbar();
+    }
+  });
+  
+  // Fullscreen change event
+  document.addEventListener('fullscreenchange',onFullscreenChange);
+  
+  // Keyboard shortcuts for viewer
+  document.addEventListener('keydown',onViewerKeydown);
 }
-function showViewerControls(){$('#viewerControls').classList.add('visible');viewerControlsVisible=true}
-function hideViewerControls(){$('#viewerControls').classList.remove('visible');viewerControlsVisible=false}
+
+function snapHandleToEdge(handle){
+  const rect=handle.getBoundingClientRect();
+  const vw=window.innerWidth;
+  const vh=window.innerHeight;
+  const centerX=rect.left+rect.width/2;
+  const centerY=rect.top+rect.height/2;
+  const distLeft=centerX;
+  const distRight=vw-centerX;
+  const distTop=centerY;
+  const distBottom=vh-centerY;
+  const minDist=Math.min(distLeft,distRight,distTop,distBottom);
+  let position='right';
+  let x=rect.left,y=rect.top;
+  if(minDist===distLeft){
+    position='left';
+    x=0;
+    y=Math.max(envSafeTop(),Math.min(vh-rect.height,centerY-rect.height/2));
+  }else if(minDist===distRight){
+    position='right';
+    x=vw-rect.width;
+    y=Math.max(envSafeTop(),Math.min(vh-rect.height,centerY-rect.height/2));
+  }else if(minDist===distTop){
+    position='top';
+    x=Math.max(envSafeLeft(),Math.min(vw-rect.width,centerX-rect.width/2));
+    y=0;
+  }else{
+    position='bottom';
+    x=Math.max(envSafeLeft(),Math.min(vw-rect.width,centerX-rect.width/2));
+    y=vh-rect.height-80; // above dock
+  }
+  handle.style.left=x+'px';
+  handle.style.top=y+'px';
+  handle.style.transform='none';
+  handle.classList.remove('pos-left','pos-right','pos-top','pos-bottom');
+  handle.classList.add('pos-'+position);
+  saveViewerHandlePos({position,x,y});
+}
+
+function envSafeTop(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat-top')||'0')||0}
+function envSafeLeft(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat-left')||'0')||0}
+function envSafeRight(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat-right')||'0')||0}
+function envSafeBottom(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat-bottom')||'0')||0}
+
+function showViewerToolbar(){
+  const toolbar=$('#viewerToolbar');
+  const handle=$('#viewerHandle');
+  const centerInfo=$('#viewerCenterInfo');
+  if(!toolbar)return;
+  toolbar.hidden=false;
+  toolbar.classList.add('visible');
+  handle.classList.add('expanded');
+  handle.classList.remove('collapsed');
+  handle.setAttribute('aria-expanded','true');
+  centerInfo.classList.add('hidden');
+  viewerToolbarVisible=true;
+  clearTimeout(viewerHideTimer);
+  viewerHideTimer=setTimeout(hideViewerToolbar,3000);
+  updateForwardButton();
+}
+
+function hideViewerToolbar(){
+  const toolbar=$('#viewerToolbar');
+  const handle=$('#viewerHandle');
+  const centerInfo=$('#viewerCenterInfo');
+  if(!toolbar)return;
+  toolbar.classList.remove('visible');
+  handle.classList.remove('expanded');
+  handle.classList.add('collapsed');
+  handle.setAttribute('aria-expanded','false');
+  centerInfo.classList.remove('hidden');
+  viewerToolbarVisible=false;
+  clearTimeout(viewerHideTimer);
+  setTimeout(()=>{if(!viewerToolbarVisible)toolbar.hidden=true},300);
+}
+
+function toggleViewerToolbar(){
+  if(viewerToolbarVisible)hideViewerToolbar();else showViewerToolbar();
+}
+
+function updateForwardButton(){
+  const btn=$('#vForward');
+  const f=tabs[ai]?.frame;
+  // Can't reliably detect forward availability in cross-origin iframes
+  // Enable if we have a frame (best effort)
+  if(btn&&f)btn.disabled=false;else if(btn)btn.disabled=true;
+}
+
+async function toggleFullscreen(){
+  const viewer=$('#viewer');
+  if(!viewer)return;
+  if(!document.fullscreenElement){
+    try{
+      await viewer.requestFullscreen({navigationUI:'hide'});
+      viewer.classList.add('fullscreen-api');
+      viewerFullscreen=true;
+      $('#vFullscreen').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/><line x1="4" y1="21" x2="20" y2="21"/><line x1="4" y1="3" x2="20" y2="3"/><line x1="3" y1="4" x2="3" y2="20"/><line x1="21" y1="4" x2="21" y2="20"/></svg>';
+      $('#vFullscreen').title='Exit fullscreen';
+      $('#vFullscreen').setAttribute('aria-label','Exit fullscreen');
+      hideViewerToolbar();
+    }catch(e){
+      // Fallback to pseudo-fullscreen (already default)
+      console.log('Fullscreen API not available:',e);
+    }
+  }else{
+    try{
+      await document.exitFullscreen();
+    }catch(e){
+      console.log('Exit fullscreen failed:',e);
+    }
+  }
+}
+
+function onFullscreenChange(){
+  const viewer=$('#viewer');
+  if(!viewer)return;
+  if(document.fullscreenElement===viewer){
+    viewer.classList.add('fullscreen-api');
+    viewerFullscreen=true;
+    $('#vFullscreen').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/><line x1="4" y1="21" x2="20" y2="21"/><line x1="4" y1="3" x2="20" y2="3"/><line x1="3" y1="4" x2="3" y2="20"/><line x1="21" y1="4" x2="21" y2="20"/></svg>';
+    $('#vFullscreen').title='Exit fullscreen';
+    $('#vFullscreen').setAttribute('aria-label','Exit fullscreen');
+    hideViewerToolbar();
+  }else{
+    viewer.classList.remove('fullscreen-api');
+    viewerFullscreen=false;
+    $('#vFullscreen').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+    $('#vFullscreen').title='Fullscreen';
+    $('#vFullscreen').setAttribute('aria-label','Fullscreen');
+  }
+}
+
+function onViewerKeydown(e){
+  if($('#viewer').hidden)return;
+  // Don't intercept if typing in input
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable)return;
+  
+  if(e.key==='Escape'){
+    e.preventDefault();
+    if(viewerToolbarVisible){hideViewerToolbar();return}
+    if(!$('#tabSwitcher').hidden){closeTabSwitcher();return}
+    closeViewer();
+  }else if(e.key==='w'&&(e.ctrlKey||e.metaKey)){
+    e.preventDefault();
+    if(tabs.length)closeTab(ai);
+  }else if(e.key==='Tab'&&e.ctrlKey){
+    e.preventDefault();
+    if(tabs.length>1){
+      const next=e.shiftKey?ai-1:ai+1;
+      activate((next+tabs.length)%tabs.length);
+    }
+  }else if(e.key==='f'||e.key==='F'){
+    e.preventDefault();
+    toggleFullscreen();
+  }else if(e.key==='?'){
+    e.preventDefault();
+    $('#shortcutsOverlay').hidden=false;
+  }else if(e.key==='ArrowLeft'){
+    e.preventDefault();
+    $('#vBack').click();
+  }else if(e.key==='ArrowRight'){
+    e.preventDefault();
+    $('#vForward').click();
+  }else if(e.key==='r'||e.key==='R'){
+    e.preventDefault();
+    $('#vReload').click();
+  }else if(e.key==='t'||e.key==='T'){
+    e.preventDefault();
+    openTabSwitcher();
+  }
+}
+
 function openViewer(){
-  $('#viewer').hidden=false;
-  showViewerControls();
-  setTimeout(hideViewerControls,3000);
+  const viewer=$('#viewer');
+  viewer.hidden=false;
+  document.body.classList.add('viewer-open');
+  document.body.style.top=-window.scrollY+'px';
+  showViewerToolbar();
+  applyViewerHandlePos();
+  // Enter pseudo-fullscreen on mobile (iOS Safari)
+  if(/iPhone|iPad|iPod/.test(navigator.userAgent)&&!window.MSStream){
+    viewer.style.width='100vw';
+    viewer.style.height='100dvh';
+    viewer.style.maxWidth='100vw';
+    viewer.style.maxHeight='100dvh';
+  }
+  startIdleTimer();
 }
+
 function closeViewer(){
-  $('#viewer').hidden=true;
-  hideViewerControls();
+  const viewer=$('#viewer');
+  viewer.hidden=true;
+  document.body.classList.remove('viewer-open');
+  const scrollY=-parseInt(document.body.style.top||'0');
+  document.body.style.top='';
+  window.scrollTo(0,scrollY);
+  hideViewerToolbar();
   setThemeColor(DEFAULT_THEME);
+  clearIdleTimer();
+  clearSuspendTimers();
+}
+
+function startIdleTimer(){
+  clearIdleTimer();
+  viewerIdleTimer=setTimeout(suspendAllTabs,VIEWER_IDLE_MS);
+}
+
+function clearIdleTimer(){
+  if(viewerIdleTimer){clearTimeout(viewerIdleTimer);viewerIdleTimer=null}
+}
+
+function resetIdleTimer(){
+  if(!$('#viewer').hidden){
+    clearIdleTimer();
+    startIdleTimer();
+    resumeAllTabs();
+  }
+}
+
+function suspendAllTabs(){
+  tabs.forEach((t,i)=>{
+    if(i!==ai&&t.frame&&!viewerSuspendTimers[i]){
+      viewerSuspendTimers[i]=setTimeout(()=>{
+        suspendTab(i);
+      },1000);
+    }
+  });
+}
+
+function suspendTab(index){
+  const t=tabs[index];
+  if(t&&t.frame){
+    t.suspended=true;
+    t.frame.hidden=true;
+    // Save memory by removing iframe src (but keep reference for restore)
+    t.suspendedSrc=t.frame.src;
+    t.frame.removeAttribute('src');
+    renderTabSwitcher();
+  }
+}
+
+function resumeAllTabs(){
+  tabs.forEach((t,i)=>{
+    if(t.suspended){
+      resumeTab(i);
+    }
+  });
+}
+
+function resumeTab(index){
+  const t=tabs[index];
+  if(t&&t.suspended){
+    t.suspended=false;
+    if(t.frame){
+      t.frame.hidden=false;
+      if(t.suspendedSrc){
+        t.frame.src=t.suspendedSrc;
+        t.suspendedSrc=null;
+      }
+    }
+    clearTimeout(viewerSuspendTimers[index]);
+    delete viewerSuspendTimers[index];
+    renderTabSwitcher();
+  }
+}
+
+function clearSuspendTimers(){
+  Object.values(viewerSuspendTimers).forEach(clearTimeout);
+  viewerSuspendTimers={};
 }
 
 /* ---- Tab Switcher ---- */
 function openTabSwitcher(){
   $('#tabSwitcher').hidden=false;
   renderTabSwitcher();
+  hideViewerToolbar();
 }
 function closeTabSwitcher(){$('#tabSwitcher').hidden=true}
 function renderTabSwitcher(){
@@ -566,21 +913,15 @@ function renderTabSwitcher(){
   grid.innerHTML='';
   tabs.forEach((t,i)=>{
     const card=document.createElement('div');
-    card.className='tab-card'+(i===ai?' active':'');
+    card.className='tab-card'+(i===ai?' active':'')+(t.suspended?' suspended':'');
     card.dataset.index=i;
     const preview=document.createElement('div');
     preview.className='tab-card-preview';
-    if(t.frame){
-      const img=document.createElement('img');
-      img.src=t.app.icon||resolveIcon(t.app);
-      img.alt='';
-      preview.append(img);
-    }else{
-      const img=document.createElement('img');
-      img.src=t.app.icon||resolveIcon(t.app);
-      img.alt='';
-      preview.append(img);
-    }
+    const img=document.createElement('img');
+    img.src=t.app.icon||resolveIcon(t.app);
+    img.alt='';
+    img.loading='lazy';
+    preview.append(img);
     const info=document.createElement('div');
     info.className='tab-card-info';
     const title=document.createElement('span');
@@ -589,10 +930,13 @@ function renderTabSwitcher(){
     const close=document.createElement('button');
     close.className='tab-card-close';
     close.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    close.setAttribute('aria-label','Close tab');
     close.onclick=e=>{e.stopPropagation();closeTab(i);renderTabSwitcher()};
     info.append(title,close);
     card.append(preview,info);
     card.onclick=()=>{closeTabSwitcher();activate(i)};
+    card.setAttribute('tabindex','0');
+    card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeTabSwitcher();activate(i)}};
     grid.append(card);
   });
 }
@@ -606,7 +950,12 @@ function activate(i){
   ai=i;
   const t=tabs[i];
   $('#viewer').hidden=false;
-  tabs.forEach(z=>z.frame&&(z.frame.hidden=z!==t));
+  tabs.forEach((z,zi)=>{
+    if(z.frame){
+      z.frame.hidden=zi!==i;
+      if(zi===i)resumeTab(zi);
+    }
+  });
   $('#blocked').hidden=!t.blocked;
   t.dark=getDark(t.app.url);
   applyDark(t);
@@ -616,16 +965,42 @@ function activate(i){
   setThemeColor(t.app.color||DEFAULT_THEME);
   updateDockCurrent();
   openViewer();
+  // Push state for back button handling
+  history.pushState({viewer:true,tabIndex:i},'',location.href);
 }
 function closeTab(i){
   const [t]=tabs.splice(i,1);
   if(t.settings?.wakeLock)releaseWakeLock();
   t.frame&&t.frame.remove();
   hideOffline(t);
-  if(!tabs.length){ai=-1;$('#viewer').hidden=true;setThemeColor(DEFAULT_THEME);saveSession();closeViewer();return}
+  clearTimeout(viewerSuspendTimers[i]);
+  delete viewerSuspendTimers[i];
+  if(!tabs.length){ai=-1;$('#viewer').hidden=true;document.body.classList.remove('viewer-open');setThemeColor(DEFAULT_THEME);saveSession();closeViewer();return}
   if(i<ai)ai--;else if(i===ai)ai=Math.min(ai,tabs.length-1);
   activate(ai);
 }
+
+/* ---- History / Back Button ---- */
+window.addEventListener('popstate',e=>{
+  if(e.state&&e.state.viewer){
+    // Viewer was open, check if we should close it or switch tabs
+    if(e.state.tabIndex!==undefined&&tabs[e.state.tabIndex]){
+      activate(e.state.tabIndex);
+    }else{
+      closeViewer();
+    }
+  }else if(!e.state||!e.state.viewer){
+    // Navigated away from viewer
+    if(!$('#viewer').hidden){
+      closeViewer();
+    }
+  }
+});
+
+/* ---- Interaction listeners to reset idle timer ---- */
+document.addEventListener('pointerdown',resetIdleTimer,{passive:true});
+document.addEventListener('keydown',resetIdleTimer,{passive:true});
+document.addEventListener('scroll',resetIdleTimer,{passive:true});
 async function open(a){
   if(!a||!a.url)return;
   addRecent(a);
@@ -825,10 +1200,13 @@ function initShortcuts(){
     else if(e.key==='n'||e.key==='N'){openAddDialog()}
     else if(e.key==='s'||e.key==='S'){$('#pullSearch')?.classList.add('active');pullActive=true;$('#homeSearch')?.focus()}
     else if(e.key===','){openSettings()}
-    else if(e.key==='ArrowLeft'&&!$('#viewer').hidden){$('#vBack').click()}
-    else if(e.key==='ArrowRight'&&!$('#viewer').hidden){const f=tabs[ai]?.frame;if(f&&f.contentWindow){try{f.contentWindow.history.forward()}catch{}}}
-    else if(e.key==='r'||e.key==='R'){$('#vReload').click()}
-    else if(e.key==='t'||e.key==='T'){openTabSwitcher()}
+    else if((e.key==='w'||e.key==='W')&&(e.ctrlKey||e.metaKey)){e.preventDefault();if(tabs.length)closeTab(ai)}
+    else if(e.key==='Tab'&&(e.ctrlKey||e.metaKey)){e.preventDefault();if(tabs.length>1){const next=e.shiftKey?ai-1:ai+1;activate((next+tabs.length)%tabs.length)}}
+    else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFullscreen()}
+    else if(e.key==='ArrowLeft'&&!$('#viewer').hidden){e.preventDefault();$('#vBack').click()}
+    else if(e.key==='ArrowRight'&&!$('#viewer').hidden){e.preventDefault();$('#vForward').click()}
+    else if(e.key==='r'||e.key==='R'){e.preventDefault();$('#vReload').click()}
+    else if(e.key==='t'||e.key==='T'){e.preventDefault();openTabSwitcher()}
     else if(e.key==='w'||e.key==='W'){if(tabs.length)closeTab(ai)}
   });
   $('#shortcutsClose').onclick=()=>$('#shortcutsOverlay').hidden=true;

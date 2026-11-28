@@ -46,7 +46,7 @@
 <header class="landing-header" role="banner">
 <div class="inner">
 <a href="/" class="landing-logo" aria-label="Fab Hub home">
-<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+<img src="/logos/logo-c-hub.svg" alt="" width="28" height="28" style="display:block">
 Fab Hub
 </a>
 <nav class="landing-nav" aria-label="Main navigation">
@@ -65,28 +65,28 @@ Fab Hub
 <main>
 <section class="hero" aria-labelledby="hero-title">
 <div class="hero-content">
-<span class="hero-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 11 12 21 2 11"/><path d="M5 4v7a4 4 0 0 0 4 4h10"/></svg>Now on iOS, Android & Desktop</span>
+<span class="hero-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 11 12 21 2 11"/><path d="M5 4v7a4 4 0 0 0 4 4h10"/></svg>Works in any browser</span>
 <h1 id="hero-title">One home for every <span class="gradient-text">web app</span></h1>
 <p class="hero-tagline">Add any URL. Fab Hub fetches the icon, cleans up the name, and gives you a native-feeling app you can launch fullscreen. No app stores. No bloat.</p>
 <div class="hero-buttons">
 <a href="/app" class="hero-primary">Open Fab Hub</a>
-<button class="hero-secondary" id="themePreviewBtn" onclick="document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); localStorage.setItem('fabhub-theme', document.documentElement.getAttribute('data-theme')); document.getElementById('theme-color-meta').content = document.documentElement.getAttribute('data-theme')==='dark'?'#0b1020':'#f4f6fb';">Try Light / Dark</button>
+<button class="hero-secondary" id="themePreviewBtn" aria-label="Toggle theme preview">Try Light / Dark</button>
 </div>
 <div class="hero-badge">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-<span>Built for iPhone and Android</span>
+<span>Works on any device with a browser</span>
 </div>
 </div>
 <div class="hero-phone" aria-hidden="true">
 <div class="phone-frame" role="img" aria-label="Fab Hub home screen preview">
-<div class="phone-status"><span>9:41</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22"/><path d="M12 7v3m0 4v1"/></svg></span></div>
+<div class="phone-status"><span>9:41</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span></div>
 <div class="phone-screen" id="heroAppGrid"></div>
 <div class="phone-dock">
 <div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
 <div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
 <div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
 <div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
 </div>
 <div class="phone-peek"></div>
 <div class="glow-blob glow-blob-1"></div>
@@ -232,7 +232,7 @@ Fab Hub
 <section class="cta-band" aria-labelledby="cta-title">
 <div class="cta-inner">
 <h2 id="cta-title">Ready for your own app launcher?</h2>
-<p>Open Fab Hub, add your first URL, and feel the difference. No sign-up. No tracking. Just your apps.</p>
+<p>Open Fab Hub, add your first URL, and feel the difference. No account required. Just your apps.</p>
 <div class="cta-buttons">
 <a href="/app" class="hero-primary">Open Fab Hub</a>
 <a href="mailto:hello@fabiancodes.com?subject=Fab Hub" class="hero-secondary">Contact us</a>
@@ -245,11 +245,12 @@ Fab Hub
 <div class="footer-inner">
 <div class="footer-brand">
 <a href="/" class="landing-logo" aria-label="Fab Hub home">
-<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+<img src="/logos/logo-c-hub.svg" alt="" width="32" height="32" style="display:block">
 Fab Hub
 </a>
 <p>One home for every web app. Turn any website into a native-feeling app you can launch fullscreen.</p>
 <div class="platforms" aria-label="Supported platforms">
+<span>Web</span>
 <span>iOS</span>
 <span>Android</span>
 <span>Desktop</span>
@@ -290,19 +291,28 @@ Fab Hub
 </footer>
 
 <script>
-const demoApps=[
-{name:'GitHub',icon:'https://github.githubassets.com/assets/app-icon-512-7f9c4ff2e960.png',color:'#1e2327'},
-{name:'Notion',icon:'https://www.notion.so/images/logo-ios.png',color:'#000000'},
-{name:'Linear',icon:'https://linear.app/icon.png',color:'#5e6ad2'},
-{name:'Figma',icon:'https://static.figma.com/app/icon/1.png',color:'#a259ff'},
-{name:'Vercel',icon:'https://assets.vercel.com/image/upload/front/favicon/vercel/favicon.ico',color:'#000000'},
-{name:'Stripe',icon:'https://stripe.com/favicon.ico',color:'#635bff'},
-{name:'Discord',icon:'https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png',color:'#5865f2'},
-{name:'Spotify',icon:'https://www.scdn.co/i/_global/favicon.ico',color:'#1db954'},
-{name:'Slack',icon:'https://slack.com/favicon.ico',color:'#4a154b'},
-{name:'Twitter',icon:'https://abs.twimg.com/favicons/twitter.3.ico',color:'#1da1f2'},
-{name:'YouTube',icon:'https://www.youtube.com/s/desktop/8e8b4d92/img/favicon_144x144.png',color:'#ff0000'},
-{name:'Reddit',icon:'https://www.reddit.com/favicon.ico',color:'#ff4500'}
+// Apps from catalog.json - used for landing page mockups
+const catalogApps=[
+{name:'FabBot',icon:'https://fab-bot.vercel.app/icon.png',color:'#0ea5e9'},
+{name:'St. Cecilia Choir',icon:'https://stceciliachoir-naze.vercel.app/icon.png',color:'#7c3aed'},
+{name:'Wikipedia',icon:'https://www.wikipedia.org/static/apple-touch/wikipedia.png',color:'#202122'},
+{name:'Fabian Codes HQ',icon:'https://fabiancodeshq.vercel.app/icon.png',color:'#2563eb'},
+{name:'Kemist',icon:'https://kemist-gilt.vercel.app/icon.png',color:'#10b981'},
+{name:'Resolve 2.0',icon:'https://resolve-20.vercel.app/icon.png',color:'#ea580c'},
+{name:'Curl Smith',icon:'https://curl-smith.vercel.app/icon.png',color:'#6366f1'},
+{name:'QR Codes Studio',icon:'https://qrcodes-studio-nine.vercel.app/icon.png',color:'#8b5cf6'},
+{name:'COS Mate AI',icon:'https://cos-mate-ai.vercel.app/icon.png',color:'#0ea5e9'},
+{name:'COS Advyza',icon:'https://cos-advyza.vercel.app/icon.png',color:'#14b8a6'},
+{name:'FUTO Cyber Defenders',icon:'https://cyber-defenders-futo.vercel.app/icon.png',color:'#a855f7'},
+{name:'Project Cyber Vigilanteam',icon:'https://project-cyber-vigilanteam.vercel.app/icon.png',color:'#7c3aed'},
+{name:'Cyber VigilanTem',icon:'https://cyber-vtem.vercel.app/icon.png',color:'#8b5cf6'},
+{name:'Cyber Stack',icon:'https://cyber-stack.vercel.app/icon.png',color:'#0f766e'},
+{name:'TaskMatrix AI',icon:'https://taskmatrix-ai.vercel.app/icon.png',color:'#4f46e5'},
+{name:'Words World',icon:'https://words-world.vercel.app/icon.png',color:'#d97706'},
+{name:'Health Lexicon',icon:'https://health-lexicon.vercel.app/icon.png',color:'#059669'},
+{name:'CGPA Calculator',icon:'https://cgpa-calc-woad.vercel.app/icon.png',color:'#0284c7'},
+{name:'Bio Calc',icon:'https://bio-calcfuto.vercel.app/icon.png',color:'#65a30d'},
+{name:'Layla Portfolio',icon:'https://laylas-portfolio.vercel.app/icon.png',color:'#f43f5e'}
 ];
 function renderAppGrid(el,apps){
 if(!el)return;
@@ -334,16 +344,16 @@ phone.setAttribute('data-theme','light');
 renderAppLibrary(grid);
 }else{
 phone.setAttribute('data-theme',mode);
-renderAppGrid(grid,demoApps);
+renderAppGrid(grid,catalogApps.slice(0,12));
 }
 }
 function renderAppLibrary(el){
 if(!el)return;
 el.innerHTML='';
 const categories=[
-{name:'Social',apps:demoApps.slice(0,4)},
-{name:'Work',apps:demoApps.slice(4,8)},
-{name:'Tools',apps:demoApps.slice(8,12)}
+{name:'Featured',apps:catalogApps.slice(0,4)},
+{name:'Productivity',apps:catalogApps.slice(4,8)},
+{name:'Tools',apps:catalogApps.slice(8,12)}
 ];
 categories.forEach(cat=>{
 const section=document.createElement('div');
@@ -384,16 +394,26 @@ el.append(section);
 });
 }
 function renderShowcaseGrids(){
-renderAppGrid(document.getElementById('showcaseLightGrid'),demoApps);
-renderAppGrid(document.getElementById('showcaseDarkGrid'),demoApps);
+renderAppGrid(document.getElementById('showcaseLightGrid'),catalogApps.slice(0,12));
+renderAppGrid(document.getElementById('showcaseDarkGrid'),catalogApps.slice(0,12));
 }
 document.addEventListener('DOMContentLoaded',()=>{
-renderAppGrid(document.getElementById('heroAppGrid'),demoApps);
-renderAppGrid(document.getElementById('previewAppGrid'),demoApps);
+renderAppGrid(document.getElementById('heroAppGrid'),catalogApps.slice(0,8));
+renderAppGrid(document.getElementById('previewAppGrid'),catalogApps.slice(0,12));
 renderShowcaseGrids();
 const toggle=document.getElementById('themeToggle');
 if(toggle){
 toggle.onclick=()=>{
+const current=localStorage.getItem('fabhub-theme')||'system';
+const next=current==='system'?'dark':current==='dark'?'light':'system';
+localStorage.setItem('fabhub-theme',next);
+document.documentElement.setAttribute('data-theme',next==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):next);
+document.getElementById('theme-color-meta').content=next==='dark'?'#0b1020':'#f4f6fb';
+};
+}
+const themePreviewBtn=document.getElementById('themePreviewBtn');
+if(themePreviewBtn){
+themePreviewBtn.onclick=()=>{
 const current=localStorage.getItem('fabhub-theme')||'system';
 const next=current==='system'?'dark':current==='dark'?'light':'system';
 localStorage.setItem('fabhub-theme',next);
