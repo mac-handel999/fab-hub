@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Offline — Fab Hub</title>
+<meta name="theme-color" content="#0b1020" id="theme-color-meta">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+<script>
+(function(){
+  var theme=localStorage.getItem('fabhub-theme')||'system';
+  var root=document.documentElement;
+  if(theme==='system'){
+    theme=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  }
+  root.setAttribute('data-theme',theme);
+  var meta=document.getElementById('theme-color-meta');
+  if(meta){meta.content=theme==='dark'?'#0b1020':'#f4f6fb'}
+})();
+</script>
+</head>
+<body>
+<main style="display:grid;place-content:center;height:100vh;padding:24px;text-align:center;background:var(--bg);color:var(--fg)">
+<div style="max-width:360px">
+<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:24px;color:var(--acc);opacity:.8"><path d="M1 1l22 22"/><path d="M16.72 11.06A10.94 10.94 0 0 1 12 18.85"/><path d="M5 12.54a10.94 10.94 0 0 1 1.36-1.79"/></svg>
+<h1 style="font-size:28px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px;color:var(--fg)">You're offline</h1>
+<p style="color:var(--mut);font-size:16px;line-height:1.6;margin:0 0 28px">Check your connection and try again. The app will automatically reconnect when you're back online.</p>
+<button id="retry" class="primary" style="width:100%;padding:14px 24px;font-size:16px;border-radius:12px;margin-bottom:12px">Retry</button>
+<button id="openExt" style="width:100%;padding:14px 24px;font-size:16px;border-radius:12px;background:var(--card);color:var(--fg);border:1px solid var(--border)">Open in new tab</button>
+</div>
+</main>
+<script>
+const url=new URLSearchParams(location.search).get('url')||'';
+document.getElementById('retry').onclick=()=>location.reload();
+document.getElementById('openExt').onclick=()=>url&&window.open(url,'_blank','noopener');
+</script>
+</body>
+</html>

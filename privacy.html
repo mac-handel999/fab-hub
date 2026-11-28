@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Privacy Policy — Fab Hub</title>
+<meta name="theme-color" content="#0b1020" id="theme-color-meta">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+<script>
+(function(){
+  var theme=localStorage.getItem('fabhub-theme')||'system';
+  var root=document.documentElement;
+  if(theme==='system'){
+    theme=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  }
+  root.setAttribute('data-theme',theme);
+  var meta=document.getElementById('theme-color-meta');
+  if(meta){meta.content=theme==='dark'?'#0b1020':'#f4f6fb'}
+})();
+</script>
+</head>
+<body>
+<header class="landing-header" role="banner">
+<div class="inner">
+<a href="/" class="landing-logo" aria-label="Fab Hub home">
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+Fab Hub
+</a>
+<nav class="landing-nav" aria-label="Main navigation">
+<a href="/">Home</a>
+<a href="/app">Open App</a>
+</nav>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+<svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+<svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+</div>
+</header>
+
+<main>
+<article class="legal-page">
+<h1>Privacy Policy</h1>
+<p class="meta">Effective date: November 27, 2026. Last updated: November 27, 2026.</p>
+
+<h2>1. No tracking, no accounts, no nonsense</h2>
+<p>Fab Hub does not collect personal data. No analytics, no cookies, no fingerprinting, no third-party trackers. Your app list, settings, and preferences stay in your browser's localStorage — on your device, under your control.</p>
+
+<h2>2. What stays local</h2>
+<ul>
+<li><strong>Your apps:</strong> URLs, custom names, icons, brand colors, and per-app settings (fullscreen, dark mode, wake lock, lock).</li>
+<li><strong>Recents & trash:</strong> Recently opened apps and deleted items (auto-purged after 30 days).</li>
+<li><strong>Session state:</strong> Open tabs and scroll positions for session restore.</li>
+<li><strong>Theme preference:</strong> System / Light / Dark choice.</li>
+<li><strong>Favicon cache:</strong> Cached favicon URLs to avoid repeated fetches.</li>
+</ul>
+<p>All of the above is stored in <code>localStorage</code> under keys prefixed with <code>fabhub.</code>. You can clear it anytime from Settings → Clear data.</p>
+
+<h2>3. Network requests</h2>
+<p>Fab Hub makes only these network requests:</p>
+<ul>
+<li><strong>Favicon fetching:</strong> When you add a URL, our <code>/api/icon</code> endpoint fetches the site's favicon server-side (with SSRF protection). The favicon URL is cached locally.</li>
+<li><strong>Site metadata:</strong> <code>/api/meta</code> fetches the page title and theme color for the "Add app" flow.</li>
+<li><strong>Embed check:</strong> <code>/api/frameable</code> checks <code>X-Frame-Options</code> and <code>Content-Security-Policy</code> to know if a site can be embedded.</li>
+<li><strong>Search (optional):</strong> If you set a <code>BRAVE_API_KEY</code> in Vercel env vars, <code>/api/search</code> returns live web results. Without it, search falls back to the local <code>catalog.json</code>.</li>
+<li><strong>PWA manifest & service worker:</strong> Standard files for installability and offline support.</li>
+</ul>
+<p>No request sends your app list, browsing history, or identifiers to our servers.</p>
+
+<h2>4. Third-party content</h2>
+<p>When you open an app, its content loads in an <code>iframe</code> from the original domain. That site's own privacy policy applies. Fab Hub does not proxy, modify, or inspect the framed content.</p>
+
+<h2>5. Share target</h2>
+<p>If you share a URL to Fab Hub (via Web Share Target), the URL is processed locally to add the app. It is not sent to any server.</p>
+
+<h2>6. Data retention & deletion</h2>
+<ul>
+<li>Trash items are auto-deleted after 30 days.</li>
+<li>Favicon cache entries have no hard expiry but can be cleared via Settings → Clear data.</li>
+<li>Uninstalling the PWA clears all <code>localStorage</code> and service worker caches.</li>
+</ul>
+
+<h2>7. Children's privacy</h2>
+<p>Fab Hub is not directed at children under 13. We do not knowingly collect data from children.</p>
+
+<h2>8. Changes to this policy</h2>
+<p>Updates will be posted at this URL with a new "Last updated" date. Continued use constitutes acceptance.</p>
+
+<h2>9. Contact</h2>
+<p>Questions? Email <a href="mailto:hello@fabiancodes.com">hello@fabiancodes.com</a>.</p>
+</article>
+</main>
+
+<footer class="landing-footer" role="contentinfo">
+<div class="footer-inner">
+<div class="footer-brand">
+<a href="/" class="landing-logo" aria-label="Fab Hub home">
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+Fab Hub
+</a>
+<p>One home for every web app.</p>
+</div>
+<nav class="footer-links" aria-label="Legal">
+<h4>Legal</h4>
+<ul>
+<li><a href="/privacy.html">Privacy Policy</a></li>
+<li><a href="/terms.html">Terms of Service</a></li>
+</ul>
+</nav>
+<nav class="footer-links" aria-label="Contact">
+<h4>Contact</h4>
+<ul>
+<li><a href="mailto:hello@fabiancodes.com">hello@fabiancodes.com</a></li>
+</ul>
+</nav>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Fab Hub. Built by FABIAN CODES HQ</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const toggle=document.getElementById('themeToggle');
+if(toggle){
+toggle.onclick=()=>{
+const current=localStorage.getItem('fabhub-theme')||'system';
+const next=current==='system'?'dark':current==='dark'?'light':'system';
+localStorage.setItem('fabhub-theme',next);
+document.documentElement.setAttribute('data-theme',next==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):next);
+document.getElementById('theme-color-meta').content=next==='dark'?'#0b1020':'#f4f6fb';
+};
+}
+});
+</script>
+</body>
+</html>

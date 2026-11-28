@@ -1,5 +1,43 @@
 [
-{"id":"fabbot","name":"FabBot","url":"https://YOUR-FABBOT.vercel.app","color":"#0ea5e9","desc":"Cybersecurity AI chatbot","tags":["ai","security","chat"]},
-{"id":"st-cecilia","name":"St. Cecilia Choir","url":"https://YOUR-CHOIR-SITE.vercel.app","color":"#7c3aed","desc":"HTCC Naze choir portal and Music Boom tickets","tags":["music","tickets"]},
-{"id":"wikipedia","name":"Wikipedia","url":"https://www.wikipedia.org","color":"#202122","desc":"Demo entry: the free encyclopedia","tags":["reference"]}
+{"id":"fabbot","name":"FabBot","url":"https://fab-bot.vercel.app","color":"#0ea5e9","desc":"Cybersecurity AI chatbot","tags":["ai","security","chat"]},
+
+{"id":"st-cecilia","name":"St. Cecilia Choir","url":"https://stceciliachoir-naze.vercel.app","color":"#7c3aed","desc":"HTCC Naze choir portal and Music Boom tickets","tags":["music","tickets"]},
+
+{"id":"wikipedia","name":"Wikipedia","url":"https://www.wikipedia.org","color":"#202122","desc":"Demo entry: the free encyclopedia","tags":["reference"]},
+
+{"id":"fabian-codes-hq","name":"Fabian Codes HQ","url":"https://fabiancodeshq.vercel.app","color":"#2563eb","desc":"Fabian Codes HQ portfolio website","tags":["portfolio","reference"]},
+
+{"id":"kemist","name":"Kemist","url":"https://kemist-gilt.vercel.app","color":"#10b981","desc":"Nigerian pharmacy app: drug lookup, verification and nearby facilities","tags":["health","pharmacy","ai"]},
+
+{"id":"resolve-2","name":"Resolve 2.0","url":"https://resolve-20.vercel.app","color":"#ea580c","desc":"Resolve v2 with AI sentiment and SLA tracking","tags":["fintech","support","ai"]},
+
+{"id":"curl-smith","name":"Curl Smith","url":"https://curl-smith.vercel.app","color":"#6366f1","desc":"Developer tool app with Excel support","tags":["tools","developer"]},
+
+{"id":"qr-studio","name":"QR Codes Studio","url":"https://qrcodes-studio-nine.vercel.app","color":"#8b5cf6","desc":"Free QR code generator with logo and color options","tags":["tools","qr"]},
+
+{"id":"cos-mate","name":"COS Mate AI","url":"https://cos-mate-ai.vercel.app","color":"#0ea5e9","desc":"AI study companion for university students","tags":["ai","school"]},
+
+{"id":"cos-advyza","name":"COS Advyza","url":"https://cos-advyza.vercel.app","color":"#14b8a6","desc":"Course adviser aid","tags":["school"]},
+
+{"id":"cyber-defenders","name":"FUTO Cyber Defenders","url":"https://cyber-defenders-futo.vercel.app","color":"#a855f7","desc":"FUTO Cyber Defenders Club website","tags":["security","school","community"]},
+
+{"id":"cyber-vigilanteam","name":"Project Cyber Vigilanteam","url":"https://project-cyber-vigilanteam.vercel.app","color":"#7c3aed","desc":"Cyber Vigilanteam project site","tags":["security"]},
+
+{"id":"cyber-vtem","name":"Cyber VigilanTem","url":"https://cyber-vtem.vercel.app","color":"#8b5cf6","desc":"Cyber VigilanTem security awareness site","tags":["security"]},
+
+{"id":"cyber-stack","name":"Cyber Stack","url":"https://cyber-stack.vercel.app","color":"#0f766e","desc":"Cyber Stack tech and podcast pages","tags":["security","tech"]},
+
+{"id":"taskmatrix-ai","name":"TaskMatrix AI","url":"https://taskmatrix-ai.vercel.app","color":"#4f46e5","desc":"Task manager with calendar and AI","tags":["productivity","ai"]},
+
+{"id":"words-world","name":"Words World","url":"https://words-world.vercel.app","color":"#d97706","desc":"Dictionary and word lookup","tags":["reference","tools"]},
+
+{"id":"health-lexicon","name":"Health Lexicon","url":"https://health-lexicon.vercel.app","color":"#059669","desc":"Health terms dictionary","tags":["health","reference"]},
+
+{"id":"cgpa-calc","name":"CGPA Calculator","url":"https://cgpa-calc-woad.vercel.app","color":"#0284c7","desc":"CGPA and GPA calculator","tags":["school","tools"]},
+
+{"id":"bio-calc","name":"Bio Calc","url":"https://bio-calcfuto.vercel.app","color":"#65a30d","desc":"Bio calculator for FUTO students","tags":["school","tools"]},
+
+{"id":"layla-portfolio","name":"Layla Portfolio","url":"https://laylas-portfolio.vercel.app","color":"#f43f5e","desc":"Layla's portfolio website","tags":["portfolio"]}
+
+
 ]

@@ -3,3 +3,9 @@
 2. `npm i -g vercel && vercel` from this folder. Static files and `/api/*` deploy together.
 3. Optional: set `BRAVE_API_KEY` in Vercel env vars to add live web results to search.
 4. Replace `/icons/*.png` with your real logo.
+
+## Local development
+```bash
+npm run local
+```
+Runs `vercel dev` to serve static files and API routes locally. The app falls back to local catalog search if the API is unavailable.

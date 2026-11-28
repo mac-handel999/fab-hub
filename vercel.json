@@ -1,3 +1,5 @@
 {"rewrites":[
+{"source":"/","destination":"/landing.html"},
+{"source":"/app/:path*","destination":"/index.html"},
 {"source":"/a/:slug/manifest.json","destination":"/api/manifest?slug=:slug"},
 {"source":"/a/:slug","destination":"/api/app?slug=:slug"}]}
