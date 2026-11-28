@@ -381,6 +381,9 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   cursor:pointer;
   box-shadow:0 4px 20px rgba(99,102,241,.4);
   transition:transform .15s,box-shadow .15s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
 }
 .landing-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,.5)}
 .landing-cta:active{transform:translateY(0)}
@@ -442,6 +445,9 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   cursor:pointer;
   box-shadow:0 8px 30px rgba(99,102,241,.4);
   transition:transform .15s,box-shadow .15s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
 }
 .hero-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(99,102,241,.5)}
 .hero-secondary{
@@ -454,6 +460,9 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   border-radius:16px;
   cursor:pointer;
   transition:all var(--transition);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
 }
 .hero-secondary:hover{border-color:var(--acc);color:var(--acc)}
 .hero-badge{display:flex;align-items:center;gap:8px;margin-top:24px;color:var(--mut);font-size:14px}
@@ -547,6 +556,16 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   position:absolute;
   inset:0;
   background:linear-gradient(180deg,rgba(255,255,255,.2),transparent);
+}
+.app-icon-img{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+}
+.app-icon-img.fallback{
+  box-shadow:0 4px 14px rgba(99,102,241,.3);
 }
 .app-tile span{
   font-size:11px;
@@ -1470,6 +1489,21 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   box-shadow:var(--shadow-lg);
   pointer-events:auto;
 }
+.dock-brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  color:var(--fg);
+  font-weight:600;
+  font-size:13px;
+  pointer-events:none;
+}
+.dock-brand svg{
+  width:28px;
+  height:28px;
+  flex-shrink:0;
+}
 .dock-item{
   display:flex;
   flex-direction:column;
@@ -1749,6 +1783,16 @@ dialog button[value="default"]{background:var(--acc);color:#fff;border-color:var
   text-align:center;
   min-width:0;
   padding:0 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.viewer-brand{
+  width:28px;
+  height:28px;
+  flex-shrink:0;
+  opacity:.6;
 }
 .viewer-title{
   font-size:14px;
