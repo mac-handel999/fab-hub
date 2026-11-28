@@ -3,11 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Fab Hub</title>
+<title>Fab Hub — One Home for Every Web App</title>
+<meta name="description" content="Fab Hub turns any website into a native-feeling app. Add URLs, get automatic icons and names, launch fullscreen. Works on iPhone, Android, and desktop.">
 <meta name="theme-color" content="#0b1020" id="theme-color-meta">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="canonical" href="https://fabhub.app/">
 <link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Fab Hub",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Turn any website into a native-feeling app. Add URLs, get automatic icons and names, launch fullscreen."
+}
+</script>
+<meta property="og:title" content="Fab Hub — One Home for Every Web App">
+<meta property="og:description" content="Turn any website into a native-feeling app. Add URLs, get automatic icons and names, launch fullscreen.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fabhub.app/">
+<meta property="og:image" content="https://fabhub.app/icons/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fab Hub — One Home for Every Web App">
+<meta name="twitter:description" content="Turn any website into a native-feeling app. Add URLs, get automatic icons and names, launch fullscreen.">
 <script>
 (function(){
   var theme=localStorage.getItem('fabhub-theme')||'system';
@@ -22,393 +43,353 @@
 </script>
 </head>
 <body>
-<!-- Home Screen -->
-<div id="home" class="home-screen">
-  <!-- Pull-down search area -->
-  <div id="pullSearch" class="pull-search" aria-hidden="true">
-    <div class="pull-search-content">
-      <div class="pull-search-hint">Pull down to search</div>
-      <div class="pull-search-bar">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="search" id="homeSearch" placeholder="Search apps and web" autocomplete="off" aria-label="Search apps and web">
-        <button class="clear-search" aria-label="Clear search">×</button>
-      </div>
-      <div id="homeSearchResults" class="search-results"></div>
-    </div>
-  </div>
-
-  <!-- Pages container -->
-  <div id="pages" class="pages" role="list" aria-label="Home screen pages">
-    <!-- Pinned row will be inserted at top of first page -->
-    <!-- Pages will be inserted here -->
-  </div>
-
-  <!-- Recents row (shown on first page below pinned) -->
-  <div id="recentsSection" class="recents-section" hidden>
-    <h2 class="section-title">Recents</h2>
-    <div id="recentsGrid" class="recents-grid" role="list"></div>
-  </div>
-
-  <!-- Page dots indicator -->
-  <div id="pageDots" class="page-dots" aria-hidden="true"></div>
-
-  <!-- Floating dock -->
-  <nav id="dock" class="dock" role="navigation" aria-label="Main navigation">
-    <button class="dock-item" data-dock="home" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-      <span>Home</span>
-    </button>
-    <button class="dock-item" data-dock="add" aria-label="Add app" title="Add app">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      <span>Add</span>
-    </button>
-    <button class="dock-item dock-center" id="dockCurrent" data-dock="current" aria-label="Current app" title="Current app">
-      <div class="dock-current-icon" aria-hidden="true"></div>
-    </button>
-    <button class="dock-item" data-dock="search" aria-label="Search" title="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span>Search</span>
-    </button>
-    <button class="dock-item" data-dock="settings" aria-label="Settings" title="Settings">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      <span>Settings</span>
-    </button>
-  </nav>
+<header class="landing-header" role="banner">
+<div class="inner">
+<a href="/" class="landing-logo" aria-label="Fab Hub home">
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+Fab Hub
+</a>
+<nav class="landing-nav" aria-label="Main navigation">
+<a href="#features">Features</a>
+<a href="#preview">Preview</a>
+<a href="#how-it-works">How it works</a>
+<a href="/app">Open App</a>
+</nav>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+<svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+<svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+<a href="/app" class="landing-cta">Get Fab Hub</a>
 </div>
+</header>
 
-<!-- App Library -->
-<div id="appLibrary" class="app-library" hidden>
-  <header class="library-header">
-    <h1>App Library</h1>
-    <div class="library-header-actions">
-      <button id="libraryTrashBtn" class="icon-btn" aria-label="Trash" title="Trash">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </button>
-      <button class="library-close" aria-label="Close App Library">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-  </header>
-  <div class="library-search">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="search" id="librarySearch" placeholder="Search apps" autocomplete="off">
-  </div>
-  <div id="libraryContent" class="library-content"></div>
-  <!-- Trash section (hidden by default) -->
-  <div id="trashSection" class="library-trash-section" hidden>
-    <div class="trash-header">
-      <h2>Trash</h2>
-      <button id="purgeAll" class="danger" hidden>Empty Trash</button>
-    </div>
-    <p id="trashEmpty" class="empty" hidden>Trash is empty</p>
-    <div id="trashGrid" class="trash-grid" role="list"></div>
-  </div>
+<main>
+<section class="hero" aria-labelledby="hero-title">
+<div class="hero-content">
+<span class="hero-eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 11 12 21 2 11"/><path d="M5 4v7a4 4 0 0 0 4 4h10"/></svg>Now on iOS, Android & Desktop</span>
+<h1 id="hero-title">One home for every <span class="gradient-text">web app</span></h1>
+<p>Add any URL. Fab Hub fetches the icon, cleans up the name, and gives you a native-feeling app you can launch fullscreen. No app stores. No bloat.</p>
+<div class="hero-buttons">
+<a href="/app" class="hero-primary">Open Fab Hub</a>
+<button class="hero-secondary" id="themePreviewBtn" onclick="document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); localStorage.setItem('fabhub-theme', document.documentElement.getAttribute('data-theme')); document.getElementById('theme-color-meta').content = document.documentElement.getAttribute('data-theme')==='dark'?'#0b1020':'#f4f6fb';">Try Light / Dark</button>
 </div>
-
-<!-- Viewer (fullscreen) -->
-<div id="viewer" class="viewer" hidden>
-  <div class="viewer-handle" id="viewerHandle" role="button" tabindex="0" aria-label="Viewer controls">
-    <div class="handle-bar"></div>
-  </div>
-  <div class="viewer-controls" id="viewerControls" hidden>
-    <div class="viewer-left">
-      <button id="vBack" title="Back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
-      <button id="vReload" title="Reload" aria-label="Reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
-    </div>
-    <div class="viewer-center">
-      <div id="vName" class="viewer-title"></div>
-      <div id="vUrl" class="viewer-url"></div>
-    </div>
-    <div class="viewer-right">
-      <button id="vTabs" title="Tab switcher" aria-label="Tab switcher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="3" x2="8" y2="17"/><line x1="16" y1="3" x2="16" y2="17"/></svg></button>
-      <button id="vClose" title="Close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-  </div>
-  <div id="frames" class="frames"></div>
-  <div id="blocked" class="blocked" hidden>
-    <p id="blockedReason">This site doesn't allow being shown inside another app.</p>
-    <div class="blocked-actions">
-      <button id="bOpen">Open in new tab</button>
-      <button id="bInstall">Install as app</button>
-      <button id="bAddAnyway">Add anyway</button>
-    </div>
-  </div>
+<div class="hero-badge">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+<span>Built for iPhone and Android</span>
 </div>
-
-<!-- Tab Switcher -->
-<div id="tabSwitcher" class="tab-switcher" hidden>
-  <div class="tab-switcher-header">
-    <h2>Tabs</h2>
-    <button id="tsClose" aria-label="Close tab switcher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div id="tabSwitcherGrid" class="tab-switcher-grid"></div>
 </div>
-
-<!-- Add App Dialog -->
-<dialog id="addDialog" class="add-dialog">
-  <form method="dialog">
-    <header class="dialog-header">
-      <h3 id="addDialogTitle">Add App</h3>
-      <button value="cancel" aria-label="Cancel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </header>
-    <div class="dialog-body">
-      <!-- Step 1: Enter URL -->
-      <div id="addStep1" class="add-step">
-        <label>Enter URL
-          <input type="url" id="addUrl" placeholder="https://example.com" required autocomplete="url">
-        </label>
-        <div class="add-hint">We'll fetch the icon, name, and brand color automatically.</div>
-        <button type="button" id="addFetch" class="primary">Fetch & Preview</button>
-      </div>
-      <!-- Step 2: Preview & Edit -->
-      <div id="addStep2" class="add-step" hidden>
-        <div class="add-preview">
-          <div class="preview-tile" id="previewTile"></div>
-          <div class="preview-info">
-            <label>Name
-              <input type="text" id="addName" required>
-            </label>
-            <label>Icon URL
-              <input type="url" id="addIconUrl" placeholder="https://...">
-            </label>
-            <label>Upload icon
-              <input type="file" id="addIconFile" accept="image/*">
-            </label>
-            <label>Brand color
-              <input type="color" id="addColor">
-            </label>
-          </div>
-        </div>
-        <div class="add-actions">
-          <button type="button" id="addBack" class="secondary">Back</button>
-          <button type="submit" id="addSave" class="primary">Add App</button>
-        </div>
-      </div>
-    </div>
-  </form>
-</dialog>
-
-<!-- Settings Sheet -->
-<dialog id="settingsDialog" class="settings-dialog">
-  <form method="dialog">
-    <header class="dialog-header">
-      <h3>Settings</h3>
-      <button value="cancel" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </header>
-    <div class="dialog-body settings-body">
-      <section class="settings-section">
-        <h4>Appearance</h4>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Theme</span>
-            <small>Choose light, dark, or follow system</small>
-          </div>
-          <div class="theme-options" id="themeOptions">
-            <button type="button" class="theme-option" data-theme="system" aria-pressed="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-              <span>System</span>
-            </button>
-            <button type="button" class="theme-option" data-theme="light" aria-pressed="false">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-              <span>Light</span>
-            </button>
-            <button type="button" class="theme-option" data-theme="dark" aria-pressed="false">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              <span>Dark</span>
-            </button>
-          </div>
-        </div>
-      </section>
-      <section class="settings-section">
-        <h4>Search</h4>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Search engine</span>
-            <small>Used for web search results</small>
-          </div>
-          <select id="searchEngine" class="setting-select">
-            <option value="brave">Brave Search (requires API key)</option>
-            <option value="duckduckgo">DuckDuckGo HTML</option>
-            <option value="google">Google Custom Search</option>
-          </select>
-        </div>
-      </section>
-      <section class="settings-section">
-        <h4>Data</h4>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Export data</span>
-            <small>Download all apps, settings, and history as JSON</small>
-          </div>
-          <button type="button" id="exportData" class="secondary">Export JSON</button>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Import data</span>
-            <small>Restore from a previously exported JSON file</small>
-          </div>
-          <label class="file-input">
-            <input type="file" id="importData" accept=".json" hidden>
-            <button type="button" class="secondary">Choose file</button>
-          </label>
-        </div>
-        <div class="setting-row danger">
-          <div class="setting-label">
-            <span>Clear all data</span>
-            <small>Removes all apps, history, and settings. Cannot be undone.</small>
-          </div>
-          <button type="button" id="clearData" class="danger">Clear all</button>
-        </div>
-      </section>
-      <section class="settings-section">
-        <h4>About</h4>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Version</span>
-            <small id="appVersion">1.0.0</small>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Source code</span>
-            <small><a href="https://github.com/fabian-codes/fab-hub" target="_blank" rel="noopener">GitHub</a></small>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Privacy</span>
-            <small><a href="/privacy.html">Privacy Policy</a></small>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label">
-            <span>Terms</span>
-            <small><a href="/terms.html">Terms of Service</a></small>
-          </div>
-        </div>
-      </section>
-    </div>
-  </form>
-</dialog>
-
-<!-- Edit App Dialog -->
-<dialog id="editDialog" class="edit-dialog">
-  <form method="dialog">
-    <header class="dialog-header">
-      <h3>Edit App</h3>
-      <button value="cancel" aria-label="Cancel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </header>
-    <div class="dialog-body">
-      <input type="hidden" id="editAppUrl">
-      <div class="edit-preview">
-        <div class="preview-tile" id="editPreviewTile"></div>
-      </div>
-      <label>Name
-        <input type="text" id="editName" required>
-      </label>
-      <label>Icon URL
-        <input type="url" id="editIconUrl" placeholder="https://...">
-      </label>
-      <label>Upload icon
-        <input type="file" id="editIconFile" accept="image/*">
-      </label>
-      <label>Brand color
-        <input type="color" id="editColor">
-      </label>
-      <div class="edit-actions">
-        <button type="button" id="editReset" class="secondary">Reset icon</button>
-        <button type="button" id="editDelete" class="danger">Move to Trash</button>
-        <button type="submit" id="editSave" class="primary">Save</button>
-      </div>
-    </div>
-  </form>
-</dialog>
-
-<!-- Per-App Settings Dialog -->
-<dialog id="appSettingsDialog" class="app-settings-dialog">
-  <form method="dialog">
-    <header class="dialog-header">
-      <h3 id="appSettingsTitle">App Settings</h3>
-      <button value="cancel" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </header>
-    <div class="dialog-body">
-      <input type="hidden" id="appSettingsUrl">
-      <div class="setting-row toggle-row">
-        <div class="setting-label">
-          <span>Open fullscreen by default</span>
-          <small>Launch directly in fullscreen viewer</small>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="appSetFullscreen">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-row toggle-row">
-        <div class="setting-label">
-          <span>Force dark mode</span>
-          <small>Apply dark mode filter to this app</small>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="appSetDark">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-row toggle-row">
-        <div class="setting-label">
-          <span>Keep awake</span>
-          <small>Prevent screen from sleeping while app is open</small>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="appSetWakeLock">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-row toggle-row">
-        <div class="setting-label">
-          <span>Lock app</span>
-          <small>Require authentication to open (future)</small>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="appSetLock" disabled>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-row danger">
-        <button type="button" id="appSetDelete" class="danger">Remove from Fab Hub</button>
-      </div>
-    </div>
-  </form>
-</dialog>
-
-<!-- Toast Container -->
-<div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-
-<!-- Keyboard Shortcuts Overlay -->
-<div id="shortcutsOverlay" class="shortcuts-overlay" hidden>
-  <div class="shortcuts-content">
-    <header>
-      <h2>Keyboard Shortcuts</h2>
-      <button id="shortcutsClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </header>
-    <dl class="shortcuts-list">
-      <dt>Navigation</dt>
-      <dd><kbd>/</kbd><span>Focus search</span></dd>
-      <dd><kbd>Esc</kbd><span>Close dialog / exit viewer</span></dd>
-      <dd><kbd>?</kbd><span>Show this overlay</span></dd>
-      <dt>Viewer</dt>
-      <dd><kbd>←</kbd><span>Back</span></dd>
-      <dd><kbd>→</kbd><span>Forward</span></dd>
-      <dd><kbd>R</kbd><span>Reload</span></dd>
-      <dd><kbd>T</kbd><span>Tab switcher</span></dd>
-      <dd><kbd>W</kbd><span>Close tab</span></dd>
-      <dt>Home</dt>
-      <dd><kbd>N</kbd><span>Add new app</span></dd>
-      <dd><kbd>S</kbd><span>Open Search</span></dd>
-      <dd><kbd>,</kbd><span>Settings</span></dd>
-    </dl>
-  </div>
+<div class="hero-phone" aria-hidden="true">
+<div class="phone-frame" role="img" aria-label="Fab Hub home screen preview">
+<div class="phone-status"><span>9:41</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l22 22"/><path d="M12 7v3m0 4v1"/></svg></span></div>
+<div class="phone-screen" id="heroAppGrid"></div>
+<div class="phone-dock">
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
 </div>
+<div class="phone-peek"></div>
+<div class="glow-blob glow-blob-1"></div>
+<div class="glow-blob glow-blob-2"></div>
+<div class="glow-blob glow-blob-3"></div>
+</div>
+</div>
+</section>
 
-<script src="/app.js"></script>
+<section id="features" class="features" aria-labelledby="features-title">
+<h2 id="features-title" style="display:none">Features</h2>
+<article class="feature-card">
+<div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+<h3>Fullscreen browsing</h3>
+<p>Launch any site edge-to-edge with a floating handle for back, reload, and tab switching. No browser chrome.</p>
+</article>
+<article class="feature-card">
+<div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+<h3>Smart icons & names</h3>
+<p>Paste a URL and Fab Hub auto-fetches the favicon and a cleaned-up name — stripping "Home |", "Official Site", and other cruft.</p>
+</article>
+<article class="feature-card">
+<div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<h3>Offline-ready</p>
+<p>Every app gets a fallback page. If a site blocks embedding or you lose connection, you still get a clean offline view with one-tap "Open in browser".</p>
+</article>
+</section>
+
+<section class="powered" id="powered" aria-labelledby="powered-title">
+<div class="powered-header">
+<span class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Designed like an app. Powered by the web.</span>
+<h2 id="powered-title">Everything feels native</h2>
+<p>No Electron. No heavy runtimes. Just the platform you already have — the browser — pushed to its limits.</p>
+</div>
+<div class="powered-grid">
+<article class="powered-item">
+<div class="powered-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></div>
+<h3>Edge-to-edge</h3>
+<p>Fullscreen viewer with a minimal floating handle. Swipe or tap to navigate.</p>
+</article>
+<article class="powered-item">
+<div class="powered-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+<h3>One home</h3>
+<p>All your web apps in a familiar iPhone-style grid. Pages, folders, and an App Library.</p>
+</article>
+<article class="powered-item">
+<div class="powered-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+<h3>Auto icons & names</h3>
+<p>Drop a URL. We fetch the favicon, clean the title, pick a brand color. Editable anytime.</p>
+</article>
+<article class="powered-item">
+<div class="powered-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<h3>Offline fallback</h3>
+<p>Custom per-app offline pages. When embedding fails, you still get a useful screen.</p>
+</article>
+</div>
+</section>
+
+<section id="preview" class="preview" aria-labelledby="preview-title">
+<div class="preview-header">
+<span class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Preview</span>
+<h2 id="preview-title">Your apps, your theme</h2>
+<p>Switch between Light, Dark, and System mode instantly. Every screen adapts — home grid, viewer, settings, even the offline page.</p>
+</div>
+<div class="preview-tabs" role="tablist" aria-label="Theme preview">
+<button class="preview-tab active" role="tab" aria-selected="true" data-theme="light" onclick="switchPreview('light')">Light mode</button>
+<button class="preview-tab" role="tab" aria-selected="false" data-theme="dark" onclick="switchPreview('dark')">Dark mode</button>
+<button class="preview-tab" role="tab" aria-selected="false" data-theme="library" onclick="switchPreview('library')">App Library</button>
+</div>
+<div class="preview-mockup">
+<div class="preview-phone" id="previewPhone" data-theme="light">
+<div class="preview-screen" id="previewAppGrid"></div>
+<div class="preview-dock">
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="how-it-works" class="how-it-works" aria-labelledby="how-title">
+<div class="how-header">
+<span class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>How it works</span>
+<h2 id="how-title">Three steps to your own app launcher</h2>
+<p>No accounts. No configuration files. Just open, add, and go.</p>
+</div>
+<div class="how-steps">
+<div class="how-step">
+<div class="step-number">01</div>
+<div class="step-content">
+<h3>Add a URL</h3>
+<p>Paste any link — a productivity tool, a news site, your favorite game. Fab Hub fetches the favicon, cleans the title, and picks a brand color automatically.</p>
+</div>
+</div>
+<div class="how-step">
+<div class="step-number">02</div>
+<div class="step-content">
+<h3>Fab Hub finds the icon and name</h3>
+<p>No manual work. The favicon becomes your app icon. The page title gets stripped of "Home |", "Official Site", "— Wikipedia", and similar clutter. You can edit anything before saving.</p>
+</div>
+</div>
+<div class="how-step">
+<div class="step-number">03</div>
+<div class="step-content">
+<h3>Launch it fullscreen</h3>
+<p>Tap to open in a chromeless viewer with a floating handle for back, reload, and tabs. Add to home screen for a truly native feel. Works offline with custom fallback pages.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="theme-showcase" aria-labelledby="showcase-title">
+<span class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Theme Showcase</span>
+<h2 id="showcase-title">Beautiful in light. Stunning in dark.</h2>
+<p>One codebase, two complete themes. Every component — tiles, viewer, settings, offline page — adapts automatically. Respects your system preference or your explicit choice.</p>
+<div class="showcase-phones">
+<div class="showcase-phone" data-theme="light" aria-label="Light theme preview">
+<div class="showcase-screen" id="showcaseLightGrid"></div>
+<div class="showcase-dock">
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+</div>
+</div>
+<div class="showcase-phone" data-theme="dark" aria-label="Dark theme preview">
+<div class="showcase-screen" id="showcaseDarkGrid"></div>
+<div class="showcase-dock">
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="dock-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 21.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.1 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="cta-band" aria-labelledby="cta-title">
+<div class="cta-inner">
+<h2 id="cta-title">Ready for your own app launcher?</h2>
+<p>Open Fab Hub, add your first URL, and feel the difference. No sign-up. No tracking. Just your apps.</p>
+<div class="cta-buttons">
+<a href="/app" class="hero-primary">Open Fab Hub</a>
+<a href="mailto:hello@fabiancodes.com?subject=Fab Hub" class="hero-secondary">Contact us</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="landing-footer" role="contentinfo">
+<div class="footer-inner">
+<div class="footer-brand">
+<a href="/" class="landing-logo" aria-label="Fab Hub home">
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="8" fill="url(#grad)"/><path d="M8 16L14 22L24 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="50%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs></svg>
+Fab Hub
+</a>
+<p>One home for every web app. Turn any website into a native-feeling app you can launch fullscreen.</p>
+</div>
+<nav class="footer-links" aria-label="Product">
+<h4>Product</h4>
+<ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#preview">Preview</a></li>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="/app">Open App</a></li>
+</ul>
+</nav>
+<nav class="footer-links" aria-label="Company">
+<h4>Company</h4>
+<ul>
+<li><a href="/privacy.html">Privacy</a></li>
+<li><a href="/terms.html">Terms</a></li>
+<li><a href="mailto:hello@fabiancodes.com">Contact</a></li>
+</ul>
+</nav>
+<nav class="footer-links" aria-label="Legal">
+<h4>Legal</h4>
+<ul>
+<li><a href="/privacy.html">Privacy Policy</a></li>
+<li><a href="/terms.html">Terms of Service</a></li>
+</ul>
+</nav>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Fab Hub. Built by FABIAN CODES HQ</p>
+<div class="footer-social" aria-label="Social links">
+<a href="https://github.com/fabian-codes/fab-hub" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
+<a href="https://twitter.com/fabiancodes" target="_blank" rel="noopener" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 9.24H19.98l-5.635-7.257-6.9 7.956H4.81L11.95 2.25h3.308l-2.797 3.62 6.11 6.827-5.06 5.84H4.81L11.55 21.75h3.292l7.156-8.295L12.69 5.32 18.813 0H15.5l-2.773 3.567 6.326 7.37-7.12 8.31z"/></svg></a>
+</div>
+</div>
+</footer>
+
+<script>
+const demoApps=[
+{name:'GitHub',icon:'https://github.githubassets.com/assets/app-icon-512-7f9c4ff2e960.png',color:'#1e2327'},
+{name:'Notion',icon:'https://www.notion.so/images/logo-ios.png',color:'#000000'},
+{name:'Linear',icon:'https://linear.app/icon.png',color:'#5e6ad2'},
+{name:'Figma',icon:'https://static.figma.com/app/icon/1.png',color:'#a259ff'},
+{name:'Vercel',icon:'https://assets.vercel.com/image/upload/front/favicon/vercel/favicon.ico',color:'#000000'},
+{name:'Stripe',icon:'https://stripe.com/favicon.ico',color:'#635bff'},
+{name:'Discord',icon:'https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png',color:'#5865f2'},
+{name:'Spotify',icon:'https://www.scdn.co/i/_global/favicon.ico',color:'#1db954'},
+{name:'Slack',icon:'https://slack.com/favicon.ico',color:'#4a154b'},
+{name:'Twitter',icon:'https://abs.twimg.com/favicons/twitter.3.ico',color:'#1da1f2'},
+{name:'YouTube',icon:'https://www.youtube.com/s/desktop/8e8b4d92/img/favicon_144x144.png',color:'#ff0000'},
+{name:'Reddit',icon:'https://www.reddit.com/favicon.ico',color:'#ff4500'}
+];
+function renderAppGrid(el,apps){
+if(!el)return;
+el.innerHTML='';
+apps.forEach((app,i)=>{
+const tile=document.createElement('div');
+tile.className='app-tile';
+tile.style.animationDelay=(i*50)+'ms';
+const icon=document.createElement('div');
+icon.className='app-icon';
+icon.style.background='linear-gradient(135deg,'+app.color+', '+app.color+'dd)';
+icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>';
+const label=document.createElement('span');
+label.textContent=app.name;
+tile.append(icon,label);
+el.append(tile);
+});
+}
+function switchPreview(mode){
+document.querySelectorAll('.preview-tab').forEach(b=>{b.classList.toggle('active',b.dataset.theme===mode);b.setAttribute('aria-selected',b.dataset.theme===mode)});
+const phone=document.getElementById('previewPhone');
+const grid=document.getElementById('previewAppGrid');
+if(mode==='library'){
+phone.setAttribute('data-theme','light');
+renderAppLibrary(grid);
+}else{
+phone.setAttribute('data-theme',mode);
+renderAppGrid(grid,demoApps);
+}
+}
+function renderAppLibrary(el){
+if(!el)return;
+el.innerHTML='';
+const categories=[
+{name:'Social',apps:demoApps.slice(0,4)},
+{name:'Work',apps:demoApps.slice(4,8)},
+{name:'Tools',apps:demoApps.slice(8,12)}
+];
+categories.forEach(cat=>{
+const section=document.createElement('div');
+section.style.gridColumn='1/-1';
+section.style.display='flex';
+section.style.flexDirection='column';
+section.style.gap='8px';
+const title=document.createElement('h4');
+title.textContent=cat.name;
+title.style.fontSize='13px';
+title.style.fontWeight='700';
+title.style.color='var(--fg)';
+title.style.margin='8px 0 4px';
+section.append(title);
+const row=document.createElement('div');
+row.style.display='grid';
+row.style.gridTemplateColumns='repeat(4,1fr)';
+row.style.gap='12px';
+cat.apps.forEach((app,i)=>{
+const tile=document.createElement('div');
+tile.className='app-tile';
+tile.style.animationDelay=(i*50)+'ms';
+const icon=document.createElement('div');
+icon.className='app-icon';
+icon.style.background='linear-gradient(135deg,'+app.color+', '+app.color+'dd)';
+icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>';
+const label=document.createElement('span');
+label.textContent=app.name;
+tile.append(icon,label);
+row.append(tile);
+});
+section.append(row);
+el.append(section);
+});
+}
+function renderShowcaseGrids(){
+renderAppGrid(document.getElementById('showcaseLightGrid'),demoApps);
+renderAppGrid(document.getElementById('showcaseDarkGrid'),demoApps);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+renderAppGrid(document.getElementById('heroAppGrid'),demoApps);
+renderAppGrid(document.getElementById('previewAppGrid'),demoApps);
+renderShowcaseGrids();
+const toggle=document.getElementById('themeToggle');
+if(toggle){
+toggle.onclick=()=>{
+const current=localStorage.getItem('fabhub-theme')||'system';
+const next=current==='system'?'dark':current==='dark'?'light':'system';
+localStorage.setItem('fabhub-theme',next);
+document.documentElement.setAttribute('data-theme',next==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):next);
+document.getElementById('theme-color-meta').content=next==='dark'?'#0b1020':'#f4f6fb';
+};
+}
+});
+</script>
 </body>
 </html>

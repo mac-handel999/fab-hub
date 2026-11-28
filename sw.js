@@ -1,4 +1,4 @@
-const C='fabhub-v4',SHELL=['/landing.html','/index.html','/offline.html','/privacy.html','/terms.html','/style.css','/app.js','/manifest.json','/icons/icon-192.png'];
+const C='fabhub-v5',SHELL=['/index.html','/app.html','/offline.html','/privacy.html','/terms.html','/style.css','/app.js','/manifest.json','/icons/icon-192.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>clients.claim())));
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);
